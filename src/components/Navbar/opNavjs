@@ -1,0 +1,201 @@
+import { Link as ScrollLink } from "react-scroll";
+import { useLocation, Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
+import txtLogo from "../../assets/img/GiftsGardenTxt.png";
+import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { RiMenuLine } from "react-icons/ri";
+import DropdownUser from "./DropDownUser";
+import useAuthContext from "../../context/useAuthContext";
+import { useEffect, useState } from "react";
+
+const DeskNav = ({
+  cartCount,
+  openAuthPage,
+  setCartVisible,
+  openMobileMenu,
+}) => {
+  const { pathname } = useLocation();
+  const GoTo = pathname === "/" ? ScrollLink : Link;
+
+  const { apiToken } = useAuthContext();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const NavMenu = () => (
+    <nav className="hidden lg:flex flex-row justify-center items-center text-lg font-semibold gap-24 mt-4 text-ExtraDarkColor p-4">
+      <GoTo
+        to={`${pathname === "/" ? "mobiles" : "/product/category/1"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Mobile
+      </GoTo>
+      <GoTo
+        to={`${pathname === "/" ? "electronics" : "/product/category/2"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Electronics
+      </GoTo>
+      <GoTo
+        to={`${pathname === "/" ? "fashion" : "/product/category/3"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Fashion
+      </GoTo>
+      <GoTo
+        to={`${pathname === "/" ? "health_beauty" : "/product/category/4"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Health & Beauty
+      </GoTo>
+      <GoTo
+        to={`${pathname === "/" ? "home_kitchen" : "/product/category/5"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Home & Kitchen
+      </GoTo>
+      <GoTo
+        to={`${pathname === "/" ? "review" : "/#review"}`}
+        spy={true}
+        smooth={true}
+        duration={500}
+        className="hover:text-black transition duration-300 ease-in-out cursor-pointer"
+      >
+        Review
+      </GoTo>
+    </nav>
+  );
+
+  return (
+    <header className="sticky top-0 w-full z-50 bg-white mb-4 lg:mb-0">
+      <section className="flex flex-col">
+        {!isScrolled ? (
+          <>
+            <div className="flex justify-between items-center px-4 md:px-16 md:py-5 mt-7 relative ">
+              <SearchBar />
+
+              <GoTo
+                to={`${pathname === "/" ? "home" : "/"}`}
+                smooth={true}
+                duration={500}
+                offset={-200}
+              >
+                <img
+                  src={txtLogo}
+                  alt="Logo"
+                  className="w-40 text cursor-pointer"
+                />
+              </GoTo>
+
+              <div className="flex items-center gap-5">
+                {apiToken ? (
+                  <DropdownUser />
+                ) : (
+                  <FaUser
+                    size={25}
+                    className="text-DarkColor cursor-pointer"
+                    onClick={openAuthPage}
+                  />
+                )}
+                <div className="text-DarkColor relative">
+                  <FaShoppingCart
+                    size={25}
+                    className="cursor-pointer"
+                    onClick={() => setCartVisible(true)}
+                  />
+                  <div className="absolute top-[-17px] right-[-10px] bg-red-600 w-[22px] h-[20px] rounded-full text-white text-sm grid place-items-center">
+                    {cartCount}
+                  </div>
+                </div>
+                <RiMenuLine
+                  size={25}
+                  className="text-DarkColor cursor-pointer lg:hidden"
+                  onClick={openMobileMenu}
+                />
+              </div>
+            </div>
+            {NavMenu()}
+          </>
+        ) : (
+          <>
+            <div>
+              <SearchBar />
+
+              <GoTo
+                to={`${pathname === "/" ? "home" : "/"}`}
+                smooth={true}
+                duration={500}
+                offset={-200}
+              >
+                <img
+                  src={txtLogo}
+                  alt="Logo"
+                  className="w-40 text cursor-pointer"
+                />
+              </GoTo>
+            </div>
+            {NavMenu()}
+            <div className="flex items-center gap-5">
+              {apiToken ? (
+                <DropdownUser />
+              ) : (
+                <FaUser
+                  size={25}
+                  className="text-DarkColor cursor-pointer"
+                  onClick={openAuthPage}
+                />
+              )}
+              <div className="text-DarkColor relative">
+                <FaShoppingCart
+                  size={25}
+                  className="cursor-pointer"
+                  onClick={() => setCartVisible(true)}
+                />
+                <div className="absolute top-[-17px] right-[-10px] bg-red-600 w-[22px] h-[20px] rounded-full text-white text-sm grid place-items-center">
+                  {cartCount}
+                </div>
+              </div>
+              <RiMenuLine
+                size={25}
+                className="text-DarkColor cursor-pointer lg:hidden"
+                onClick={openMobileMenu}
+              />
+            </div>
+          </>
+        )}
+      </section>
+    </header>
+  );
+};
+
+export default DeskNav;
