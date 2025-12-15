@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        PrimaryColor: "#ffffff",
-        SecondaryColor: "#818589",
-        DarkColor: "#1e1e1e",
+        Red: "#AC2F2D",
+        White: "#FFFFFF",
+        DarkColor: "#222224",
         ExtraDarkColor: "#000000",
       },
       width: {
@@ -15,7 +15,14 @@ export default {
       height: {
         140: "35rem",
       },
+      fontFamily: {
+        montserrat: ["Montserrat", "sans-serif"],
+      },
     },
   },
   plugins: [],
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+  },
 };

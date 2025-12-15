@@ -29,9 +29,8 @@ const MobileNav = ({ menu, setMenu, closeMenu }) => {
   return (
     <div
       ref={menuRef}
-      className={`fixed inset-y-0 right-0 mt-10 bg-SecondaryColor text-black font-semibold text-2xl text-center py-8 gap-4 w-full h-full flex flex-col items-center transition-transform duration-300 z-40 transform ${
-        menu ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`fixed inset-y-0 right-0 mt-10 bg-white text-black font-semibold text-2xl text-center py-8 gap-4 w-full h-full flex flex-col items-center transition-transform duration-300 z-50 transform ${menu ? "translate-x-0" : "translate-x-full"
+        }`}
     >
       {/* X icon */}
       <div className="w-full flex justify-end px-4">
